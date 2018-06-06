@@ -24,11 +24,14 @@ const seedDB = ({ data }) => {
         userLookup
       ]);
     })
-    .then(([articleDocs, userLookup]) => {
+    .then(([articleDocs, userLookup, topicDocs, userDocs]) => {
       const articleLookup = createArticleRefObj(data.articles, articleDocs);
-      return Comment.insertMany(
-        formatCommentData(data, userLookup, articleLookup)
-      );
+      return Promise.all([
+        Comment.insertMany(formatCommentData(data, userLookup, articleLookup)),
+        articleDocs,
+        topicDocs,
+        userDocs
+      ]);
     });
 };
 
