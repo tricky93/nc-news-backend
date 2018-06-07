@@ -36,6 +36,72 @@ describe("/northcoders-news", () => {
           expect(res.body.message).to.equal("page not found");
         });
     });
+    describe("/topics/:topic_slug/articles", () => {
+      it("GET responds with status 200 and an object with all the articles relating to the slug", () => {
+        return request
+          .get(`/api/topics/${topicDocs[0].slug}/articles`)
+          .expect(200)
+          .then(res => {
+            expect(res.body.articles[0]).to.contain.all.keys([
+              "title",
+              "body",
+              "belongs_to",
+              "votes",
+              "created_by"
+            ]);
+          });
+      });
+      it("GET responds with status 400 for a page not found", () => {
+        return request
+          .get("/api/topics/pasta/articles")
+          .expect(400)
+          .then(res => {
+            expect(res.body.message).to.equal(
+              "Topic not found! for topic : pasta"
+            );
+          });
+      });
+    });
+    describe("/topics/:topic_slug/articles", () => {
+      it("POST responds with status 201 and an object containg the new article", () => {
+        const newArticle = {
+          title: "new article",
+          body: "This is my new article content",
+          belongs_to: "cats",
+          created_by: "butter_bridge"
+        };
+        return request
+          .post(`/api/topics/cats/articles`)
+          .send(newArticle)
+          .expect(201)
+          .then(res => {
+            console.log(res.body);
+            expect(res.body._doc).to.contain.keys([
+              "title",
+              "body",
+              "belongs_to",
+              "votes",
+              "created_by"
+            ]);
+          });
+      });
+    });
+    describe("/articles", () => {
+      it.only("GET it reponds with status 200 and returns an object with all the articles", () => {
+        return request
+          .get("/api/articles")
+          .expect(200)
+          .then(res => {
+            expect(res.body.articles[0]).to.contain.all.keys([
+              "title",
+              "body",
+              "belongs_to",
+              "votes",
+              "created_by"
+            ]);
+          });
+      });
+    });
     describe("/users/:username", () => {
       it("GET responds with status 200 an an object with the user", () => {
         return request
@@ -49,7 +115,7 @@ describe("/northcoders-news", () => {
             ]);
           });
       });
-      it.only("GET responds with status 400 for a username not in the database", () => {
+      it("GET responds with status 400 for a username not in the database", () => {
         return request
           .get(`/api/users/MrBigStuff`)
           .expect(400)
