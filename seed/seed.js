@@ -21,7 +21,9 @@ const seedDB = ({ data }) => {
       const userLookup = createUserRefObj(data.users, userDocs);
       return Promise.all([
         Article.insertMany(formatArticleData(data, userLookup)),
-        userLookup
+        userLookup,
+        topicDocs,
+        userDocs
       ]);
     })
     .then(([articleDocs, userLookup, topicDocs, userDocs]) => {

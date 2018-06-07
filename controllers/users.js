@@ -2,9 +2,17 @@ const { Topic, Article, User, Comment } = require("../models");
 
 const getUserByName = (req, res, next) => {
   const { username } = req.params;
-  User.findOne({ username: username }, (err, user) => {
-    res.send({ user });
-  });
+  User.findOne({ username: username })
+    .then(user => {
+      if (user === null) {
+        return next({
+          status: 400,
+          message: `User not found! for username : ${username}`
+        });
+      }
+      res.send({ user });
+    })
+    .catch(next);
 };
 
 module.exports = { getUserByName };

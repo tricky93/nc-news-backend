@@ -1,10 +1,12 @@
 const { Topic, Article, User, Comment } = require("../models");
 
 const getTopics = (req, res, next) => {
-  Topic.find().then(topics => {
-    console.log(topics);
-    res.send({ topics });
-  });
+  console.log("hi");
+  Topic.find()
+    .then(topics => {
+      res.send({ topics });
+    })
+    .catch(next);
 };
 
 module.exports = { getTopics };
