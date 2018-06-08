@@ -17,6 +17,5 @@ I can confirm this news api is 100% unofficial!!!
 
 ### Built With
 
-Express - https://expressjs.com/
-mongoDB - https://www.mongodb.com
-mongoose - http://mongoosejs.com/
+- [Express](https://expressjs.com/) - The web application framework used
+- [mongoDB](https://www.mongodb.com) - The database used
