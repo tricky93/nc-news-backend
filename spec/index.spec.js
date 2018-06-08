@@ -63,7 +63,7 @@ describe("/northcoders-news", () => {
       });
     });
     describe("/articles", () => {
-      it.only("GET responds with status 200 and an object containing all the articles", () => {
+      it("GET responds with status 200 and an object containing all the articles", () => {
         return request
           .get("/api/articles")
           .expect(200)

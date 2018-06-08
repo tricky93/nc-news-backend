@@ -7,14 +7,15 @@
     "test": "mocha ./spec",
     "start": "node index.js",
     "dev": "nodemon listen.js",
-    "seed:dev": "node ./seed/seed.dev.js"
+    "seed:dev": "node ./seed/seed.dev.js",
+    "seed:prod": "NODE_ENV=production node seed/seed.dev.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "mongoose": "^5.0.14"
+    "mongoose": "^5.1.4"
   },
   "devDependencies": {
     "chai": "^4.1.2",
