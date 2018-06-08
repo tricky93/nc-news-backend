@@ -13,6 +13,10 @@ app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
 
+app.get("/", (req, res) => {
+  res.render("pages/index");
+});
+
 app.use("/api", apiRouter);
 
 app.get("/*", badRouteChoice);
