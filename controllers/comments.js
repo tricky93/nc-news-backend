@@ -26,11 +26,16 @@ const addAComment = (req, res, next) => {
 
 const removeComment = (req, res, next) => {
   const { comment_id } = req.params;
-  Comment.findByIdAndRemove(comment_id)
-    .then(comment => {
-      res.send({ comment });
+  Comment.findByIdAndRemove(comment_id);
+  if (comment === null)
+    return next({
+      status: 400,
+      message: "comment does not exist"
     })
-    .catch(next);
+      .then(comment => {
+        res.send({ comment });
+      })
+      .catch(next);
 };
 
 const upAndDownCommentVote = (req, res, next) => {
