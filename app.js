@@ -11,6 +11,10 @@ mongoose.connect(DB_URL).then(() => {
 
 app.use(bodyParser.json());
 
+app.set("view engine", "ejs");
+
+app.use(express.static("public"));
+
 app.use("/api", apiRouter);
 
 app.get("/*", badRouteChoice);

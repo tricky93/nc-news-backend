@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nc-news-portfolio!</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Northcoders News
+      </h1>
+      <h1 class="title">
+        API Endpoints
+      </h1>
+      <ol>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>GET
+            <span style='color: red'>/api/topics</span>
+          </li>
+          <p>Get all the topics</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>GET
+            <span style='color: red'>/api/topics/:topic/articles</span>
+          </li>
+          <p>Return all the articles for a certain topic</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>GET
+            <span style='color: red'>/api/articles</span>
+          </li>
+          <p>Return all the articles</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>GET
+            <span style='color: red'>/api/articles/:article_id/comments</span>
+          </li>
+          <p>Get all the comments for a individual article</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>POST
+            <span style='color: red'>/api/articles/:article_id/comments</span>
+          </li>
+          <p>Add a new comment to an article. This route requires a JSON body with a comment key and value pair</p>
+          <p style='font-weight: 100'>e.g: {"comment": "This is my new comment"}</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>PUT
+            <span style='color: red'>/api/articles/:article_id</span>
+          </li>
+          <p>Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'</p>
+          <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/articles/:article_id?vote=up</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>PUT
+            <span style='color: red'>/api/comments/:comment_id</span>
+          </li>
+          <p>Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'</p>
+          <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/comments/:comment_id?vote=down</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>DELETE
+            <span style='color: red'>/api/comments/:comment_id</span>
+          </li>
+          <p>Deletes a comment if the comment was created by the Northcoder user</p>
+        </div>
+        <div style='margin-bottom: 1em'>
+          <li style='font-weight: bolder'>GET
+            <span style='color: red'>/api/users/:username</span>
+          </li>
+          <p>Returns a JSON object with the profile data for the specified user.</p>
+        </div>
+      </ol>
+
+    </div>
+  </section>
+</body>
+
+</html>
