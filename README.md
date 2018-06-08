@@ -9,3 +9,8 @@ This project has been creted using an express and MongoDB. The final project is 
 I can confirm this news api is 100% unofficial!!!
 
 ### Dependencies
+
+    body-parser: "^1.18.3",
+    ejs: "^2.6.1",
+    express: "^4.16.3",
+    mongoose: "^5.1.4"
