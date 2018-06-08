@@ -29,7 +29,7 @@ const postArticleByTopic = (req, res, next) => {
     return newArticle
       .save()
       .then(article => {
-        return res.status(201).send({
+        res.status(201).send({
           article
         });
       })

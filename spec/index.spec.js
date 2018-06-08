@@ -19,7 +19,7 @@ describe("/northcoders-news", () => {
   });
   describe("/api", () => {
     describe("/topics", () => {
-      it("GET it reponds with status 200 and returns an object with all the topics", () => {
+      it("GET it responds with status 200 and returns an object with all the topics", () => {
         return request
           .get("/api/topics")
           .expect(200)
@@ -27,14 +27,14 @@ describe("/northcoders-news", () => {
             expect(res.body.topics[0]).to.contain.all.keys(["title", "slug"]);
           });
       });
-    });
-    it("GET responds with status 404 for a page not found", () => {
-      return request
-        .get("/api/alltopics")
-        .expect(404)
-        .then(res => {
-          expect(res.body.message).to.equal("page not found");
-        });
+      it("GET responds with status 404 for a page not found", () => {
+        return request
+          .get("/api/alltopics")
+          .expect(404)
+          .then(res => {
+            expect(res.body.message).to.equal("page not found");
+          });
+      });
     });
     describe("/topics/:topic_slug/articles", () => {
       it("GET responds with status 200 and an object with all the articles relating to the slug", () => {
@@ -51,7 +51,7 @@ describe("/northcoders-news", () => {
             ]);
           });
       });
-      it("GET responds with status 400 for a page not found", () => {
+      it("GET responds with status 400 for a page not found when topic is invalid", () => {
         return request
           .get("/api/topics/pasta/articles")
           .expect(400)
@@ -62,7 +62,24 @@ describe("/northcoders-news", () => {
           });
       });
     });
-    describe("/topics/:topic_slug/articles", () => {
+    describe("/articles", () => {
+      it.only("GET responds with status 200 and an object containing all the articles", () => {
+        return request
+          .get("/api/articles")
+          .expect(200)
+          .then(res => {
+            expect(res.body.articles[0]).to.contain.keys([
+              "title",
+              "body",
+              "belongs_to",
+              "votes",
+              "created_by",
+              "comments"
+            ]);
+          });
+      });
+    });
+    describe("/articles/:article_id", () => {
       it("POST responds with status 201 and an object containg the new article", () => {
         const newArticle = {
           title: "new article",
@@ -75,8 +92,7 @@ describe("/northcoders-news", () => {
           .send(newArticle)
           .expect(201)
           .then(res => {
-            console.log(res.body);
-            expect(res.body._doc).to.contain.keys([
+            expect(res.body.article).to.contain.keys([
               "title",
               "body",
               "belongs_to",
@@ -85,20 +101,132 @@ describe("/northcoders-news", () => {
             ]);
           });
       });
-    });
-    describe("/articles", () => {
-      it.only("GET it reponds with status 200 and returns an object with all the articles", () => {
+
+      it("PUT responds with status 201 and an object containg the updated article object with a up vote", () => {
         return request
-          .get("/api/articles")
+          .put(`/api/articles/${articleDocs[0]._id}?vote=up`)
+          .expect(201)
+          .then(res => {
+            expect(res.body.article.votes).to.equal(1);
+          });
+      });
+
+      it("PUT responds with status 201 and an object containg the updated article object with a down vote", () => {
+        return request
+          .put(`/api/articles/${articleDocs[0]._id}?vote=down`)
+          .expect(201)
+          .then(res => {
+            expect(res.body.article.votes).to.equal(-1);
+          });
+      });
+      it("PUT responds with status 500 and an object containing an error message", () => {
+        return request
+          .put(`/api/articles/${articleDocs[0]._id}?vote=88`)
+          .expect(500)
+          .then(res => {
+            expect(res.body.message).to.equal("Internal server error!");
+          });
+      });
+    });
+    describe("/articles/:article_id/comments", () => {
+      it("GET responds with status 200 and an object with all the comments for an article", () => {
+        return request
+          .get(`/api/articles/${articleDocs[0]._id}/comments`)
           .expect(200)
           .then(res => {
-            expect(res.body.articles[0]).to.contain.all.keys([
-              "title",
+            expect(res.body.comments[0]).to.contain.all.keys([
               "body",
               "belongs_to",
+              "created_at",
               "votes",
               "created_by"
             ]);
+          });
+      });
+      it("GET responds with status 404 for a valid ID but not in the database", () => {
+        return request
+          .get(`/api/articles/${topicDocs[0]._id}/comments`)
+          .expect(404)
+          .then(res => {
+            expect(res.body.message).to.equal(
+              `Article not found! for ID : ${topicDocs[0]._id}`
+            );
+          });
+      });
+      it("POST responds with status 201 and an object containing the new comment", () => {
+        const newComment = {
+          body: "This is the new comment",
+          belongs_to: "Living in the shadow of a great man",
+          created_by: "butter_bridge"
+        };
+        return request
+          .post(`/api/articles/${articleDocs[0]._id}/comments`)
+          .send(newComment)
+          .expect(201)
+          .then(res => {
+            expect(res.body.comment).to.contain.keys([
+              "body",
+              "belongs_to",
+              "created_at",
+              "votes",
+              "created_by"
+            ]);
+          });
+      });
+      it("POST responds with status 400 and an error message", () => {
+        const newComment = {
+          body: "This is the new comment",
+          belongs_to: "Living in the shadow of a great man",
+          created_by: "chattycat"
+        };
+        return request
+          .post(`/api/articles/${articleDocs[0]._id}/comments`)
+          .send(newComment)
+          .expect(400)
+          .then(res => {
+            expect(res.body.message).to.equal(
+              `Invalid user input! Problem with created_by or belongs_to fields`
+            );
+          });
+      });
+    });
+    describe("/comments/:comment_id", () => {
+      it("DELETE responds with status 200 and an object with the deleted comment", () => {
+        return request
+          .delete(`/api/comments/${commentDocs[0]._id}`)
+          .expect(200)
+          .then(res => {
+            expect(res.body.comment).to.contain.all.keys([
+              "body",
+              "belongs_to",
+              "created_at",
+              "votes",
+              "created_by"
+            ]);
+          });
+      });
+      it("Put responds with status 201 and an object containing the updated comment object with a up vote", () => {
+        return request
+          .put(`/api/comments/${commentDocs[0]._id}?vote=up`)
+          .expect(201)
+          .then(res => {
+            expect(res.body.comment.votes).to.equal(8);
+          });
+      });
+      it("Put responds with status 201 and an object containing the updated comment object with a down vote", () => {
+        return request
+          .put(`/api/comments/${commentDocs[0]._id}?vote=down`)
+          .expect(201)
+          .then(res => {
+            expect(res.body.comment.votes).to.equal(6);
+          });
+      });
+      it("Put responds with status 500 and an object containing the the error message", () => {
+        return request
+          .put(`/api/comments/${commentDocs[0]._id}?vote=wrong`)
+          .expect(500)
+          .then(res => {
+            expect(res.body.message).to.equal("Internal server error!");
           });
       });
     });
@@ -127,8 +255,9 @@ describe("/northcoders-news", () => {
       });
     });
   });
-  after(() => {
-    mongoose.disconnect();
-  });
 });
+after(() => {
+  mongoose.disconnect();
+});
+
 // disconnect afterwards
