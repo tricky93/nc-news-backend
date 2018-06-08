@@ -4,7 +4,7 @@
 
 This is my news api created as part of the Northcoders course.
 
-This project has been creted using an express and MongoDB. The final project is hosted on heroku at https://nc-news-portfolio.herokuapp.com/ while the database is stored on mLab.
+This project is hosted on heroku at https://nc-news-portfolio.herokuapp.com/ while the database is stored on mLab.
 
 I can confirm this news api is 100% unofficial!!!
 
@@ -14,3 +14,9 @@ I can confirm this news api is 100% unofficial!!!
     ejs: "^2.6.1",
     express: "^4.16.3",
     mongoose: "^5.1.4"
+
+### Built With
+
+Express - https://expressjs.com/
+mongoDB - https://www.mongodb.com
+mongoose - http://mongoosejs.com/
