@@ -5,7 +5,7 @@ const getArticles = (req, res, next) => {
     .lean()
     .then(comments => {
       const commentObj = comments.reduce((acc, element, index) => {
-        if (acc[element.belongs_to] === 1) {
+        if (acc[element.belongs_to] !== undefined) {
           acc[element.belongs_to]++;
         } else {
           acc[element.belongs_to] = 1;

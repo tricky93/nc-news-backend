@@ -102,7 +102,7 @@ describe("/northcoders-news", () => {
           });
       });
 
-      it("PUT responds with status 201 and an object containg the updated article object with a up vote", () => {
+      it("PUT responds with status 201 and an object containing the updated article object with a up vote", () => {
         return request
           .put(`/api/articles/${articleDocs[0]._id}?vote=up`)
           .expect(201)
@@ -203,6 +203,16 @@ describe("/northcoders-news", () => {
               "votes",
               "created_by"
             ]);
+          });
+      });
+      it("DELETE responds with status 404 and a message saying the page was not found when an invalid comment ID is entered", () => {
+        return request
+          .delete(`/api/comments/${articleDocs[0]._id}`)
+          .expect(400)
+          .then(res => {
+            expect(res.body.message).to.equal(
+              `comment with the id ${articleDocs[0]._id} does not exist`
+            );
           });
       });
       it("Put responds with status 201 and an object containing the updated comment object with a up vote", () => {
