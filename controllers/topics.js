@@ -1,4 +1,4 @@
-const { Topic, Article, User, Comment } = require("../models");
+const { Topic, Article, User } = require("../models");
 
 const getTopics = (req, res, next) => {
   Topic.find()
@@ -14,7 +14,7 @@ const getArticlesBySlug = (req, res, next) => {
     .then(articles => {
       if (articles[0] === undefined)
         return next({
-          status: 400,
+          status: 404,
           message: `Topic not found! for topic : ${topic_slug}`
         });
       res.send({ articles });

@@ -1,4 +1,4 @@
-const { Topic, Article, User, Comment } = require("../models");
+const { Article, User, Comment } = require("../models");
 
 const addAComment = (req, res, next) => {
   const { article_id } = req.params;
@@ -46,23 +46,17 @@ const upAndDownCommentVote = (req, res, next) => {
       status: 500,
       message: `Internal server error!`
     });
-  vote === "up"
-    ? Comment.findByIdAndUpdate(
-        comment_id,
-        { $inc: { votes: 1 } },
-        { new: true }
-      ).then(comment => {
-        res.status(201).send({ comment });
-      })
-    : Comment.findByIdAndUpdate(
-        comment_id,
-        { $inc: { votes: -1 } },
-        { new: true }
-      )
-        .then(comment => {
-          res.status(201).send({ comment });
-        })
-        .catch(next);
+  let voter;
+  vote === "up" ? (voter = 1) : (voter = -1);
+  Comment.findByIdAndUpdate(
+    comment_id,
+    { $inc: { votes: voter } },
+    { new: true }
+  )
+    .then(comment => {
+      res.status(201).send({ comment });
+    })
+    .catch(next);
 };
 
 module.exports = { addAComment, removeComment, upAndDownCommentVote };

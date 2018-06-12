@@ -14,7 +14,6 @@ const createArticleRefObj = (data, docs) => {
 
 const formatArticleData = (data, userLookup) => {
   return data.articles.map(article => {
-    const { title, body, belongs_to, votes, created_by } = article;
     return {
       ...article,
       belongs_to: article.topic,
@@ -25,7 +24,6 @@ const formatArticleData = (data, userLookup) => {
 
 const formatCommentData = (data, userLookup, articleLookup) => {
   return data.comments.map(comment => {
-    const { body, belongs_to, created_at, votes, created_by } = comment;
     return {
       ...comment,
       belongs_to: articleLookup[comment.belongs_to],

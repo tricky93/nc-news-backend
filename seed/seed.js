@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-mongoose.Promise = Promise;
 const {
   formatArticleData,
   createUserRefObj,

@@ -54,7 +54,7 @@ describe("/northcoders-news", () => {
       it("GET responds with status 400 for a page not found when topic is invalid", () => {
         return request
           .get("/api/topics/pasta/articles")
-          .expect(400)
+          .expect(404)
           .then(res => {
             expect(res.body.message).to.equal(
               "Topic not found! for topic : pasta"

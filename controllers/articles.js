@@ -1,4 +1,4 @@
-const { Topic, Article, User, Comment } = require("../models");
+const { Article, Comment } = require("../models");
 
 const getArticles = (req, res, next) => {
   Comment.find()
@@ -49,23 +49,21 @@ const upAndDownVote = (req, res, next) => {
       status: 500,
       message: `Internal server error!`
     });
-  vote === "up"
-    ? Article.findByIdAndUpdate(
-        article_id,
-        { $inc: { votes: 1 } },
-        { new: true }
-      ).then(article => {
-        res.status(201).send({ article });
-      })
-    : Article.findByIdAndUpdate(
-        article_id,
-        { $inc: { votes: -1 } },
-        { new: true }
-      )
-        .then(article => {
-          res.status(201).send({ article });
-        })
-        .catch(next);
+  let voter;
+  vote === "up" ? (voter = 1) : (voter = -1);
+
+  Article.findByIdAndUpdate(
+    article_id,
+    { $inc: { votes: voter } },
+    { new: true }
+  )
+    .then(article => {
+      res.status(201).send({ article });
+    })
+    .then(article => {
+      res.status(201).send({ article });
+    })
+    .catch(next);
 };
 
 module.exports = { getArticles, getArticleComments, upAndDownVote };
