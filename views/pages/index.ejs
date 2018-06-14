@@ -11,88 +11,90 @@
 
 <body>
   <section class="section">
-    <div class="container">
-      <h1 class="title">
-        Northcoders News
-      </h1>
-      <h1 class="title">
-        API Endpoints
-      </h1>
-      <ol>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>GET
-            <a href="https://nc-news-portfolio.herokuapp.com/api/topics">
-              <span style='color: red'>/api/topics</a>
-            </span>
-          </li>
-          <p>Get all the topics</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>GET
-            <a href='https://nc-news-portfolio.herokuapp.com/api/topics/football/articles'>
-              <span style='color: red'>/api/topics/:topic/articles</a>
-            </span>
-          </li>
-          <p>Return all the articles for a certain topic</p>
-          <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/topics/football/articles</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>GET
-            <a href="https://nc-news-portfolio.herokuapp.com/api/articles">
-              <span style='color: red'>/api/articles</a>
-            </span>
-          </li>
-          <p>Return all the articles</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>GET
-            <a href="https://nc-news-portfolio.herokuapp.com/api/articles/5b1a93130e33221c76ce0402/comments">
-              <span style='color: red'>/api/articles/:article_id/comments</a>
-            </span>
-          </li>
-          <p>Get all the comments for a individual article</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>POST
-            <span style='color: red'>/api/articles/:article_id/comments
-            </span>
-          </li>
-          <p>Add a new comment to an article. This route requires a JSON body with a comment key and value pair</p>
-          <p style='font-weight: 100'>e.g: {"comment": "This is my new comment"}</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>PUT
-            <span style='color: red'>/api/articles/:article_id
-            </span>
-          </li>
-          <p>Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'</p>
-          <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/articles/:article_id?vote=up</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>PUT
-            <span style='color: red'>/api/comments/:comment_id
-            </span>
-          </li>
-          <p>Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'</p>
-          <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/comments/:comment_id?vote=down</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>DELETE
-            <span style='color: red'>/api/comments/:comment_id
-            </span>
-          </li>
-          <p>Deletes a comment if the comment was created by the Northcoder user</p>
-        </div>
-        <div style='margin-bottom: 1em'>
-          <li style='font-weight: bolder'>GET
-            <a href="https://nc-news-portfolio.herokuapp.com/api/users/tickle122">
-              <span style='color: red'>/api/users/:username</a>
-            </span>
-          </li>
-          <p>Returns a JSON object with the profile data for the specified user.</p>
-          <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/users/tickle122</p>
-        </div>
-      </ol>
+    <header>
+      <div class="container">
+        <h1 class="title">
+          Northcoders News
+        </h1>
+        <h1 class="title">
+          API Endpoints
+        </h1>
+    </header>
+    <ol>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>GET
+          <a href="https://nc-news-portfolio.herokuapp.com/api/topics">
+            <span style='color: red'>/api/topics</a>
+          </span>
+        </li>
+        <p>Get all the topics</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>GET
+          <a href='https://nc-news-portfolio.herokuapp.com/api/topics/football/articles'>
+            <span style='color: red'>/api/topics/:topic/articles</a>
+          </span>
+        </li>
+        <p>Return all the articles for a certain topic</p>
+        <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/topics/football/articles</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>GET
+          <a href="https://nc-news-portfolio.herokuapp.com/api/articles">
+            <span style='color: red'>/api/articles</a>
+          </span>
+        </li>
+        <p>Return all the articles</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>GET
+          <a href="https://nc-news-portfolio.herokuapp.com/api/articles/5b1a93130e33221c76ce0402/comments">
+            <span style='color: red'>/api/articles/:article_id/comments</a>
+          </span>
+        </li>
+        <p>Get all the comments for a individual article</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>POST
+          <span style='color: red'>/api/articles/:article_id/comments
+          </span>
+        </li>
+        <p>Add a new comment to an article. This route requires a JSON body with a comment key and value pair</p>
+        <p style='font-weight: 100'>e.g: {"comment": "This is my new comment"}</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>PUT
+          <span style='color: red'>/api/articles/:article_id
+          </span>
+        </li>
+        <p>Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'</p>
+        <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/articles/:article_id?vote=up</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>PUT
+          <span style='color: red'>/api/comments/:comment_id
+          </span>
+        </li>
+        <p>Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'</p>
+        <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/comments/:comment_id?vote=down</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>DELETE
+          <span style='color: red'>/api/comments/:comment_id
+          </span>
+        </li>
+        <p>Deletes a comment if the comment was created by the Northcoder user</p>
+      </div>
+      <div style='margin-bottom: 1em'>
+        <li style='font-weight: bolder'>GET
+          <a href="https://nc-news-portfolio.herokuapp.com/api/users/tickle122">
+            <span style='color: red'>/api/users/:username</a>
+          </span>
+        </li>
+        <p>Returns a JSON object with the profile data for the specified user.</p>
+        <p style='font-weight: 100'>e.g: https://nc-news-portfolio.herokuapp.com/api/users/tickle122</p>
+      </div>
+    </ol>
 
     </div>
   </section>

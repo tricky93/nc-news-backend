@@ -1,10 +1,10 @@
-const { Article, Comment } = require("../models");
+const { Article, Comment, User } = require("../models");
 
 const getArticles = (req, res, next) => {
   Comment.find()
     .lean()
     .then(comments => {
-      const commentObj = comments.reduce((acc, element, index) => {
+      const commentObj = comments.reduce((acc, element) => {
         if (acc[element.belongs_to] !== undefined) {
           acc[element.belongs_to]++;
         } else {
@@ -16,7 +16,6 @@ const getArticles = (req, res, next) => {
     })
     .then(([commentObj, articles]) => {
       articles = articles.map(article => {
-        let { _id } = article;
         return {
           ...article,
           comments: commentObj[article._id]
@@ -29,13 +28,27 @@ const getArticles = (req, res, next) => {
 
 const getArticleComments = (req, res, next) => {
   const { article_id } = req.params;
-  Comment.find({ belongs_to: article_id })
-    .then(comments => {
+  Promise.all([Comment.find({ belongs_to: article_id }), User.find()])
+    .then(([comments, users]) => {
       if (comments[0] === undefined)
         return next({
           status: 404,
           message: `Article not found! for ID : ${article_id}`
         });
+      const userObj = users.reduce((acc, user) => {
+        if (acc[user._id] === undefined) acc[user._id] = user.username;
+        return acc;
+      }, {});
+      comments = comments.map(comment => {
+        return {
+          created_at: comment.created_at,
+          votes: comment.votes,
+          _id: comment._id,
+          body: comment.body,
+          belongs_to: comment.belongs_to,
+          created_by: userObj[comment.created_by]
+        };
+      });
       res.send({ comments });
     })
     .catch(next);
