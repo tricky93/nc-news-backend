@@ -80,7 +80,32 @@ describe("/northcoders-news", () => {
       });
     });
     describe("/articles/:article_id", () => {
-      it("POST responds with status 201 and an object containg the new article", () => {
+      it.only("GET responds with status 200 and an object containing the desired article", () => {
+        return request
+          .get(`/api/articles/${articleDocs[0]._id}`)
+          .expect(200)
+          .then(res => {
+            expect(res.body.article).to.contain.keys([
+              "title",
+              "body",
+              "belongs_to",
+              "votes",
+              "created_by",
+              "comments"
+            ]);
+          });
+      });
+      it("GET responds with status 400 and a error message", () => {
+        return request
+          .get(`/api/articles/${userDocs[0]._id}`)
+          .expect(400)
+          .then(res => {
+            expect(res.body.message).to.equal(
+              `Article with id ${userDocs[0]._id} not found`
+            );
+          });
+      });
+      it("POST responds with status 201 and an object containing the new article", () => {
         const newArticle = {
           title: "new article",
           body: "This is my new article content",
@@ -101,7 +126,6 @@ describe("/northcoders-news", () => {
             ]);
           });
       });
-
       it("PUT responds with status 201 and an object containing the updated article object with a up vote", () => {
         return request
           .put(`/api/articles/${articleDocs[0]._id}?vote=up`)
@@ -110,7 +134,6 @@ describe("/northcoders-news", () => {
             expect(res.body.article.votes).to.equal(1);
           });
       });
-
       it("PUT responds with status 201 and an object containg the updated article object with a down vote", () => {
         return request
           .put(`/api/articles/${articleDocs[0]._id}?vote=down`)
@@ -129,7 +152,7 @@ describe("/northcoders-news", () => {
       });
     });
     describe("/articles/:article_id/comments", () => {
-      it.only("GET responds with status 200 and an object with all the comments for an article", () => {
+      it("GET responds with status 200 and an object with all the comments for an article", () => {
         return request
           .get(`/api/articles/${articleDocs[0]._id}/comments`)
           .expect(200)

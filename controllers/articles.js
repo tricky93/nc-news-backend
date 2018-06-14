@@ -26,6 +26,36 @@ const getArticles = (req, res, next) => {
     .catch(next);
 };
 
+const getArticleById = (req, res, next) => {
+  const { article_id } = req.params;
+  Comment.find()
+    .lean()
+    .then(comments => {
+      const commentObj = comments.reduce((acc, element) => {
+        if (acc[element.belongs_to] !== undefined) {
+          acc[element.belongs_to]++;
+        } else {
+          acc[element.belongs_to] = 1;
+        }
+        return acc;
+      }, {});
+      return Promise.all([
+        commentObj,
+        Article.findOne({ _id: article_id }).lean()
+      ]);
+    })
+    .then(([commentObj, article]) => {
+      if (article === null)
+        return next({
+          status: 400,
+          message: `Article with id ${article_id} not found`
+        });
+      article.comments = commentObj[article._id];
+      res.status(200).send({ article });
+    })
+    .catch(next);
+};
+
 const getArticleComments = (req, res, next) => {
   const { article_id } = req.params;
   Promise.all([Comment.find({ belongs_to: article_id }), User.find()])
@@ -79,4 +109,9 @@ const upAndDownVote = (req, res, next) => {
     .catch(next);
 };
 
-module.exports = { getArticles, getArticleComments, upAndDownVote };
+module.exports = {
+  getArticles,
+  getArticleComments,
+  upAndDownVote,
+  getArticleById
+};
