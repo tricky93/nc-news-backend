@@ -8,7 +8,7 @@ const getTopics = (req, res, next) => {
     .catch(next);
 };
 
-const getArticlesBySlug = (req, res, next) => {
+const getArticlesByTopic = (req, res, next) => {
   const { topic_slug } = req.params;
   Article.find({ belongs_to: topic_slug })
     .then(articles => {
@@ -37,4 +37,4 @@ const postArticleByTopic = (req, res, next) => {
   });
 };
 
-module.exports = { getTopics, getArticlesBySlug, postArticleByTopic };
+module.exports = { getTopics, getArticlesByTopic, postArticleByTopic };
