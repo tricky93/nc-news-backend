@@ -10,9 +10,17 @@ const getTopics = (req, res, next) => {
 
 const getArticlesByTopic = (req, res, next) => {
   const { topic_slug } = req.params;
-  Comment.find()
-    .lean()
-    .then(comments => {
+  Promise.all([
+    Comment.find(),
+    User.find(),
+    Article.find({ belongs_to: topic_slug }).lean()
+  ])
+    .then(([comments, users, articles]) => {
+      if (articles[0] === undefined)
+        return next({
+          status: 404,
+          message: `Topic not found! for topic : ${topic_slug}`
+        });
       const commentObj = comments.reduce((acc, element) => {
         if (acc[element.belongs_to] !== undefined) {
           acc[element.belongs_to]++;
@@ -21,24 +29,20 @@ const getArticlesByTopic = (req, res, next) => {
         }
         return acc;
       }, {});
-      return Promise.all([
-        commentObj,
-        Article.find({ belongs_to: topic_slug }).lean()
-      ]);
-    })
-    .then(([commentObj, articles]) => {
-      if (articles[0] === undefined)
-        return next({
-          status: 404,
-          message: `Topic not found! for topic : ${topic_slug}`
-        });
+      const userObj = users.reduce((acc, user) => {
+        if (acc[user._id] === undefined) {
+          acc[user._id] = user.username;
+          return acc;
+        }
+      }, {});
       articles = articles.map(article => {
         return {
           ...article,
-          comments: commentObj[article._id]
+          comments: commentObj[article._id],
+          created_by: userObj[article.created_by]
         };
       });
-      res.send({ articles });
+      res.status(200).send({ articles });
     })
     .catch(next);
 };

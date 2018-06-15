@@ -64,12 +64,11 @@ describe("/northcoders-news", () => {
       });
     });
     describe("/articles", () => {
-      it.only("GET responds with status 200 and an object containing all the articles", () => {
+      it("GET responds with status 200 and an object containing all the articles", () => {
         return request
           .get("/api/articles")
           .expect(200)
           .then(res => {
-            console.log(res.body);
             expect(res.body.articles[0]).to.contain.keys([
               "title",
               "body",

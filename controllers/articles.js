@@ -68,8 +68,12 @@ const getArticleById = (req, res, next) => {
 
 const getArticleComments = (req, res, next) => {
   const { article_id } = req.params;
-  Promise.all([Comment.find({ belongs_to: article_id }), User.find()])
-    .then(([comments, users]) => {
+  Promise.all([
+    Comment.find({ belongs_to: article_id }).lean(),
+    User.find().lean(),
+    Article.findOne({ _id: article_id })
+  ])
+    .then(([comments, users, article]) => {
       if (comments[0] === undefined)
         return next({
           status: 404,
@@ -81,12 +85,9 @@ const getArticleComments = (req, res, next) => {
       }, {});
       comments = comments.map(comment => {
         return {
-          created_at: comment.created_at,
-          votes: comment.votes,
-          _id: comment._id,
-          body: comment.body,
-          belongs_to: comment.belongs_to,
-          created_by: userObj[comment.created_by]
+          ...comment,
+          created_by: userObj[comment.created_by],
+          belongs_to: article.title
         };
       });
       res.send({ comments });
