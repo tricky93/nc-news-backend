@@ -37,7 +37,7 @@ describe("/northcoders-news", () => {
       });
     });
     describe("/topics/:topic_slug/articles", () => {
-      it("GET responds with status 200 and an object with all the articles relating to the slug", () => {
+      it("GET responds with status 200 and an object with all the articles relating to the topic", () => {
         return request
           .get(`/api/topics/${topicDocs[0].slug}/articles`)
           .expect(200)
@@ -47,7 +47,8 @@ describe("/northcoders-news", () => {
               "body",
               "belongs_to",
               "votes",
-              "created_by"
+              "created_by",
+              "comments"
             ]);
           });
       });
@@ -80,7 +81,7 @@ describe("/northcoders-news", () => {
       });
     });
     describe("/articles/:article_id", () => {
-      it.only("GET responds with status 200 and an object containing the desired article", () => {
+      it("GET responds with status 200 and an object containing the desired article", () => {
         return request
           .get(`/api/articles/${articleDocs[0]._id}`)
           .expect(200)
