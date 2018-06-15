@@ -19,12 +19,20 @@ describe("/northcoders-news", () => {
   });
   describe("/api", () => {
     describe("/topics", () => {
-      it("GET it responds with status 200 and returns an object with all the topics", () => {
+      it("GET it responds with status 200 and returns an array of objects with all the topics", () => {
         return request
           .get("/api/topics")
           .expect(200)
           .then(res => {
             expect(res.body.topics[0]).to.contain.all.keys(["title", "slug"]);
+          });
+      });
+      it("GET it responds with status 200 and returns an array of a correct length ", () => {
+        return request
+          .get("/api/topics")
+          .expect(200)
+          .then(res => {
+            expect(res.body.topics.length).to.equal(2);
           });
       });
       it("GET responds with status 404 for a page not found", () => {
@@ -64,7 +72,7 @@ describe("/northcoders-news", () => {
       });
     });
     describe("/articles", () => {
-      it("GET responds with status 200 and an object containing all the articles", () => {
+      it("GET responds with status 200 and an array of objects containing all the articles", () => {
         return request
           .get("/api/articles")
           .expect(200)
@@ -77,6 +85,14 @@ describe("/northcoders-news", () => {
               "created_by",
               "comments"
             ]);
+          });
+      });
+      it("GET responds with status 200 and an array with a length of 4", () => {
+        return request
+          .get("/api/articles")
+          .expect(200)
+          .then(res => {
+            expect(res.body.articles.length).to.equal(4);
           });
       });
     });
@@ -143,17 +159,17 @@ describe("/northcoders-news", () => {
             expect(res.body.article.votes).to.equal(-1);
           });
       });
-      it("PUT responds with status 500 and an object containing an error message", () => {
+      it("PUT responds with status 200 and an object containing an error message", () => {
         return request
           .put(`/api/articles/${articleDocs[0]._id}?vote=88`)
-          .expect(500)
+          .expect(200)
           .then(res => {
-            expect(res.body.message).to.equal("Internal server error!");
+            expect(res.body.message).to.equal("Query error!");
           });
       });
     });
     describe("/articles/:article_id/comments", () => {
-      it("GET responds with status 200 and an object with all the comments for an article", () => {
+      it("GET responds with status 200 and an array of objects with all the comments for an article", () => {
         return request
           .get(`/api/articles/${articleDocs[0]._id}/comments`)
           .expect(200)
@@ -165,6 +181,14 @@ describe("/northcoders-news", () => {
               "votes",
               "created_by"
             ]);
+          });
+      });
+      it("GET responds with status 200 and an array with a length of 2", () => {
+        return request
+          .get(`/api/articles/${articleDocs[0]._id}/comments`)
+          .expect(200)
+          .then(res => {
+            expect(res.body.comments.length).to.equal(2);
           });
       });
       it("GET responds with status 404 for a valid ID but not in the database", () => {
@@ -239,7 +263,7 @@ describe("/northcoders-news", () => {
             );
           });
       });
-      it("Put responds with status 201 and an object containing the updated comment object with a up vote", () => {
+      it("PUT responds with status 201 and an object containing the updated comment object with a up vote", () => {
         return request
           .put(`/api/comments/${commentDocs[0]._id}?vote=up`)
           .expect(201)
@@ -247,7 +271,7 @@ describe("/northcoders-news", () => {
             expect(res.body.comment.votes).to.equal(8);
           });
       });
-      it("Put responds with status 201 and an object containing the updated comment object with a down vote", () => {
+      it("PUT responds with status 201 and an object containing the updated comment object with a down vote", () => {
         return request
           .put(`/api/comments/${commentDocs[0]._id}?vote=down`)
           .expect(201)
@@ -255,12 +279,12 @@ describe("/northcoders-news", () => {
             expect(res.body.comment.votes).to.equal(6);
           });
       });
-      it("Put responds with status 500 and an object containing the the error message", () => {
+      it("PUT responds with status 200 and an object containing the the error message", () => {
         return request
           .put(`/api/comments/${commentDocs[0]._id}?vote=wrong`)
-          .expect(500)
+          .expect(200)
           .then(res => {
-            expect(res.body.message).to.equal("Internal server error!");
+            expect(res.body.message).to.equal("Query error!");
           });
       });
     });

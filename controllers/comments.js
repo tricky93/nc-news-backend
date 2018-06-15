@@ -43,8 +43,8 @@ const upAndDownCommentVote = (req, res, next) => {
   const { vote } = req.query;
   if (vote !== "up" && vote !== "down")
     return next({
-      status: 500,
-      message: `Internal server error!`
+      status: 200,
+      message: `Query error!`
     });
   let voter;
   vote === "up" ? (voter = 1) : (voter = -1);

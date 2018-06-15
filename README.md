@@ -39,6 +39,8 @@ The API has numerous endpoints that will serve JSON objects to the browser, thes
 
 I can confirm this news api is 100% unofficial!!!
 
+---
+
 ### Dependencies
 
     body-parser: "^1.18.3",
@@ -46,14 +48,28 @@ I can confirm this news api is 100% unofficial!!!
     express: "^4.16.3",
     mongoose: "^5.1.4"
 
+    To install the dependencies cd into the root folder, open the terminal and enter:
+
+---
+
+### Setup
+
+---
+
 ### Built With
 
 - [Express](https://expressjs.com/) - The web application framework used
 - [mongoDB](https://www.mongodb.com) - The database used
 
+---
+
 ### Authors
 
 - Paddy Walsh
+- [LinkedIn](https://www.linkedin.com/in/paddy-walsh-828586152/)
+- [Twitter](https://twitter.com/) @PeeAyyDeeDeeWhy
+
+---
 
 ### Acknowledgements
 
