@@ -56,7 +56,7 @@ I can confirm this news api is 100% unofficial!!!
 
 Before running this file a config file will need to be create and the process enviroment created establishing the url for mongoDB.
 
-## Should you wish to run this code in production the database will need to be hosted on mLab. A new account will need to be created for this and the correct authentication will need to be obtained.
+Should you wish to run this code in production the database will need to be hosted on mLab. A new account will need to be created for this and the correct authentication will need to be obtained.
 
 ### Built With
 
