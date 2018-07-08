@@ -48,13 +48,15 @@ I can confirm this news api is 100% unofficial!!!
     express: "^4.16.3",
     mongoose: "^5.1.4"
 
-    To install the dependencies cd into the root folder, open the terminal and enter:
+    To install the dependencies cd into the root folder, open the terminal and run `npm install`
 
 ---
 
 ### Setup
 
----
+Before running this file a config file will need to be create and the process enviroment created establishing the url for mongoDB.
+
+## Should you wish to run this code in production the database will need to be hosted on mLab. A new account will need to be created for this and the correct authentication will need to be obtained.
 
 ### Built With
 
